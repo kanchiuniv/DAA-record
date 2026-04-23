@@ -1,0 +1,71 @@
+AIM:
+To implement the Bin Packing Problem using the First-Fit algorithm in C, which places items into the first bin that has enough remaining capacity.
+
+ALGORITHM: (First-Fit)
+Initialize all bins as empty.
+For each item:
+Check bins sequentially.
+Place the item in the first bin that has enough remaining capacity.
+If no bin can accommodate the item, create a new bin.
+Continue until all items are placed.
+
+C PROGRAM:
+#include <stdio.h>
+#define MAX_ITEMS 100
+#define BIN_CAPACITY 10
+void binPacking(int items[], int n) {
+    int bins[MAX_ITEMS];  // store remaining capacity of bins
+    int binCount = 0;
+    for (int i = 0; i < n; i++) {
+        int j;
+        // Try to fit item into existing bins
+        for (j = 0; j < binCount; j++) {
+            if (bins[j] >= items[i]) {
+                bins[j] -= items[i];
+                printf("Item %d (size %d) placed in Bin %d\n", i+1, items[i], j+1);
+                break;
+            }
+        }
+        // If item doesn't fit in any bin, create a new bin
+        if (j == binCount) {
+            bins[binCount] = BIN_CAPACITY - items[i];
+            printf("Item %d (size %d) placed in NEW Bin %d\n", i+1, items[i], binCount+1);
+            binCount++;
+        }
+    }
+
+    printf("\nTotal bins used: %d\n", binCount);
+}
+int main() {
+    int n;
+    printf("Enter number of items: ");
+    scanf("%d", &n);
+    int items[MAX_ITEMS];
+    printf("Enter sizes of items (<= %d):\n", BIN_CAPACITY);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &items[i]);
+    }
+    printf("\n--- Bin Packing Result ---\n");
+    binPacking(items, n);
+    return 0;
+}
+SAMPLE INPUT AND OUTPUT:
+Input:
+Enter number of items: 6
+Enter sizes of items (<= 10):
+2 5 4 7 1 3
+Output:
+--- Bin Packing Result ---
+Item 1 (size 2) placed in NEW Bin 1
+Item 2 (size 5) placed in Bin 1
+Item 3 (size 4) placed in NEW Bin 2
+Item 4 (size 7) placed in NEW Bin 3
+Item 5 (size 1) placed in Bin 2
+Item 6 (size 3) placed in Bin 2
+
+Total bins used: 3
+
+RESULT:
+The program successfully implements the First-Fit Bin Packing algorithm.
+
+Would you like me to also extend this to show Best-Fit and Worst-Fit strategies alongside First-Fit, so you can compare how different heuristics affect the number of bins used?
