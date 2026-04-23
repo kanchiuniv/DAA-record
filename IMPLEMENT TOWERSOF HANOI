@@ -1,0 +1,47 @@
+AIM:
+To implement the recursive solution for the Towers of Hanoi problem in C, demonstrating how disks can be moved between pegs following the rules of the puzzle.
+
+ALGORITHM:
+If there is only one disk:
+Move it directly from the source peg to the destination peg.
+Otherwise:
+Move n-1 disks from source peg to auxiliary peg.
+Move the largest disk from source peg to destination peg.
+Move n-1 disks from auxiliary peg to destination peg.
+
+C PROGRAM:
+#include <stdio.h>
+void hanoi(int n, char source, char auxiliary, char destination) {
+    if (n == 1) {
+        printf("Move disk 1 from %c to %c\n", source, destination);
+        return;
+    }
+    hanoi(n - 1, source, destination, auxiliary);
+    printf("Move disk %d from %c to %c\n", n, source, destination);
+    hanoi(n - 1, auxiliary, source, destination);
+}
+int main() {
+    int n;
+    printf("Enter number of disks: ");
+    scanf("%d", &n);
+    printf("\nSequence of moves:\n");
+    hanoi(n, 'A', 'B', 'C');
+    int moves = (1 << n) - 1; // 2^n - 1
+    printf("\nTotal moves required: %d\n", moves);
+    return 0;
+}
+
+OUTPUT:
+Enter number of disks: 3
+Sequence of moves:
+Move disk 1 from A to C
+Move disk 2 from A to B
+Move disk 1 from C to B
+Move disk 3 from A to C
+Move disk 1 from B to A
+Move disk 2 from B to C
+Move disk 1 from A to C
+Total moves required: 7
+
+RESULT:
+The program correctly implements the recursive solution for Towers of Hanoi.
