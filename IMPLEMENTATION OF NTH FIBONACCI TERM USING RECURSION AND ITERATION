@@ -1,0 +1,60 @@
+AIM:
+To write a C program that computes the nth Fibonacci number using:
+Recursion (function calls itself).
+Iteration (loop-based approach).
+
+ALGORITHM:
+
+RECURSIVE ALGORITHM:
+If n == 0, return 0.
+If n == 1, return 1.
+Otherwise, return fib(n-1) + fib(n-2).
+
+ITERATIVE ALGORITHM:
+Initialize a = 0, b = 1.
+Loop from 2 to n:
+c = a + b
+Update a = b, b = c
+Return b as the nth Fibonacci number.
+
+C PROGRAM:
+#include <stdio.h>
+// Recursive function
+int fib_recursive(int n) {
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    return fib_recursive(n - 1) + fib_recursive(n - 2);
+}
+// Iterative function
+int fib_iterative(int n) {
+    int a = 0, b = 1, c, i;
+    if (n == 0) return a;
+    for (i = 2; i <= n; i++) {
+        c = a + b;
+        a = b;
+        b = c;
+    }
+    return b;
+}
+int main() {
+    int n;
+    printf("Enter the term (n): ");
+    scanf("%d", &n);
+    printf("\nUsing Recursion: Fibonacci(%d) = %d", n, fib_recursive(n));
+    printf("\nUsing Iteration: Fibonacci(%d) = %d\n", n, fib_iterative(n));
+
+    return 0;
+}
+
+OUTPUT:
+(for n = 6)
+Enter the term (n): 6
+Using Recursion: Fibonacci(6) = 8
+Using Iteration: Fibonacci(6) = 8
+
+RESULT:
+The program correctly computes the nth Fibonacci term using both recursion and iteration.
+
+Iterative method is efficient and preferred for larger values.
+
+Would you like me to also extend this program to print the entire Fibonacci series up to n terms alongside the nth term?
