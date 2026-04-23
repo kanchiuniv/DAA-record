@@ -1,0 +1,75 @@
+AIM:
+To implement the Minimum Spanning Tree (MST) using Prim’s Algorithm in C, which finds the subset of edges that connects all vertices with minimum total weight and without cycles.
+
+ALGORITHM:
+Start with an arbitrary vertex.
+Mark it as part of the MST.
+At each step, choose the smallest edge that connects a vertex in the MST to a vertex outside the MST.
+Add that edge and mark the new vertex as part of the MST.
+Repeat until all vertices are included.
+
+C PROGRAM: 
+
+#include <stdio.h>
+#define INF 999999
+int main() {
+    int n;
+    printf("Enter number of vertices: ");
+    scanf("%d", &n);
+    int cost[n][n];
+    printf("Enter the adjacency matrix (use 0 if no edge):\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &cost[i][j]);
+            if (cost[i][j] == 0) cost[i][j] = INF; // no edge
+        }
+    }
+    int visited[n];
+    for (int i = 0; i < n; i++) visited[i] = 0;
+    visited[0] = 1; // start from vertex 0
+    int edges = 0, minCost = 0;
+    printf("\nEdges in MST:\n");
+    while (edges < n - 1) {
+        int u = -1, v = -1;
+        int min = INF;
+        for (int i = 0; i < n; i++) {
+            if (visited[i]) {
+                for (int j = 0; j < n; j++) {
+                    if (!visited[j] && cost[i][j] < min) {
+                        min = cost[i][j];
+                        u = i;
+                        v = j;
+                    }
+                }
+            }
+        }
+
+        if (u != -1 && v != -1) {
+            printf("Edge %d: (%d -> %d) cost = %d\n", edges+1, u, v, min);
+            visited[v] = 1;
+            minCost += min;
+            edges++;
+        }
+    }
+    printf("\nMinimum cost of MST = %d\n", minCost);
+    return 0;
+}
+
+SAMPLE INPUT AND OUTPUT:
+Input:
+Enter number of vertices: 4
+Enter the adjacency matrix:
+0 5 8 0
+5 0 10 15
+8 10 0 20
+0 15 20 0
+Output:
+Edges in MST:
+Edge 1: (0 -> 1) cost = 5
+Edge 2: (0 -> 2) cost = 8
+Edge 3: (1 -> 3) cost = 15
+Minimum cost of MST = 28
+
+RESULT:
+The program correctly constructs the Minimum Spanning Tree using Prim’s Algorithm.
+
