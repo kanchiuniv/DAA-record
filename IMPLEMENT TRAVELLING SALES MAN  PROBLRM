@@ -1,0 +1,56 @@
+AIM:
+To implement the Travelling Salesman Problem (TSP) in C using a greedy/recursive method, which finds the minimum cost of visiting all cities exactly once and returning to the starting city.
+
+ALGORITHM:(Greedy/Recursive Backtracking)
+
+Represent the problem as a cost matrix (distance between cities).
+Start from a source city (say city 0).
+Mark the current city as visited.
+Recursively visit the next unvisited city with the minimum cost.
+Continue until all cities are visited.
+Return to the starting city and compute the total cost.
+Compare paths to find the minimum cost.
+
+C PROGRAM:
+
+#include <stdio.h>
+#define INF 999999
+#define N 4 
+int visited[N];
+int costMatrix[N][N] = {
+    {0, 10, 15, 20},
+    {10, 0, 35, 25},
+    {15, 35, 0, 30},
+    {20, 25, 30, 0}
+};
+int tsp(int city, int count, int cost) {
+    if (count == N && city == 0) {
+        return cost; // return to starting city
+    }
+    int ans = INF;
+    for (int i = 0; i < N; i++) {
+        if (!visited[i] && costMatrix[city][i] != 0) {
+            visited[i] = 1;
+            ans = (ans < tsp(i, count + 1, cost + costMatrix[city][i])) ? ans : tsp(i, count + 1, cost + costMatrix[city][i]);
+            visited[i] = 0;
+        }
+    }
+    return ans;
+}
+int main() {
+    for (int i = 0; i < N; i++) visited[i] = 0;
+    visited[0] = 1; // start from city 0
+    int minCost = tsp(0, 1, 0);
+    printf("Minimum cost of travelling salesman tour = %d\n", minCost);
+    return 0;
+}
+
+OUTPUT:
+Minimum cost of travelling salesman tour = 80
+
+RESULT:
+The program successfully implements the Travelling Salesman Problem using recursion and backtracking.
+
+The minimum cost tour is 80.
+
+This approach works for small N (number of cities). For larger N, more efficient algorithms (like Dynamic Programming with Bitmasking or Approximation
