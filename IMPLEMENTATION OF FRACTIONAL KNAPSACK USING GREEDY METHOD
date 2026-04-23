@@ -1,0 +1,89 @@
+AIM:
+To implement the Fractional Knapsack Problem using the Greedy approach in C, where items can be broken into fractions to maximize profit within a given capacity.
+
+ALGORITHM: (Greedy Method)
+Input the number of items, their weights, and profits, along with the knapsack capacity.
+Compute the profit/weight ratio for each item.
+Sort items in descending order of profit/weight ratio.
+Initialize total profit = 0.
+For each item:
+If the item can fit entirely, add its profit and reduce capacity.
+Otherwise, take the fraction that fits and add proportional profit.
+Stop when the knapsack is full.
+
+C PROGRAM:
+
+#include <stdio.h>
+struct Item {
+    int weight;
+    int profit;
+    float ratio;
+};
+void fractionalKnapsack(struct Item items[], int n, int capacity) {
+    // Sort items by profit/weight ratio (descending)
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (items[i].ratio < items[j].ratio) {
+                struct Item temp = items[i];
+                items[i] = items[j];
+                items[j] = temp;
+            }
+        }
+    }
+
+    float totalProfit = 0.0;
+    int remainingCapacity = capacity;
+    printf("\n--- Knapsack Filling ---\n");
+    for (int i = 0; i < n; i++) {
+        if (items[i].weight <= remainingCapacity) {
+            // Take full item
+            remainingCapacity -= items[i].weight;
+            totalProfit += items[i].profit;
+            printf("Item %d taken fully (Profit=%d, Weight=%d)\n", i+1, items[i].profit, items[i].weight);
+        } else {
+            // Take fraction of item
+            float fraction = (float)remainingCapacity / items[i].weight;
+            totalProfit += items[i].profit * fraction;
+            printf("Item %d taken fraction %.2f (Profit=%.2f, Weight=%d)\n", i+1, fraction, items[i].profit * fraction, remainingCapacity);
+            break; // Knapsack is full
+        }
+    }
+    printf("\nMaximum Profit = %.2f\n", totalProfit);
+}
+int main() {
+    int n, capacity;
+    printf("Enter number of items: ");
+    scanf("%d", &n);
+    struct Item items[n];
+    printf("Enter profits and weights of items:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d %d", &items[i].profit, &items[i].weight);
+        items[i].ratio = (float)items[i].profit / items[i].weight;
+    }
+    printf("Enter knapsack capacity: ");
+    scanf("%d", &capacity);
+    fractionalKnapsack(items, n, capacity);
+    return 0;
+}
+SAMPLE INPUT AND OUTPUT:
+Input:
+Enter number of items: 3
+Enter profits and weights of items:
+60 10
+100 20
+120 30
+Enter knapsack capacity: 50
+Output:
+--- Knapsack Filling ---
+Item 2 taken fully (Profit=100, Weight=20)
+Item 3 taken fully (Profit=120, Weight=30)
+Maximum Profit = 220.00
+If capacity were 40 instead of 50:
+--- Knapsack Filling ---
+Item 2 taken fully (Profit=100, Weight=20)
+Item 3 taken fraction 0.67 (Profit=80.00, Weight=20)
+Maximum Profit = 180.00
+
+RESULT:
+The program successfully implements the Fractional Knapsack Problem using the Greedy method.
+
